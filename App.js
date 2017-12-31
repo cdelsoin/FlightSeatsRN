@@ -1,14 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ScrollView, Text, View } from 'react-native';
+import Seats from './seats.json';
 
 export default class App extends React.Component {
   render() {
+
+    const seatData = Seats
+
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
+      <ScrollView style={styles.container}>
+
+        {seatData.map(function(seat, index){
+          return <Text key="index"> {seat.class}, {seat.row}, {seat.seat} </Text>
+        })}
+      </ScrollView>
     );
   }
 }
@@ -17,7 +22,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    overflow: 'scroll'
   },
 });
