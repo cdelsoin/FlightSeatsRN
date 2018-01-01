@@ -2,6 +2,26 @@ import React from 'react';
 import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import Seats from './seats.json';
 
+class Seat extends React.Component {
+  render(props) {
+    return (
+      <View style={[styles.seat, this.props.seat.occupied && styles.occupiedSeat, this.props.seat.premium && styles.premiumSeat]}>
+        <Text>{this.props.seat.row}{this.props.seat.seat}</Text>
+      </View>
+    )
+  }
+}
+
+class AisleSeat extends React.Component {
+  render(props) {
+    return (
+      <View style={[styles.seat, styles.aisleSeat, this.props.seat.occupied && styles.occupiedSeat, this.props.seat.premium && styles.premiumSeat]}>
+        <Text>{this.props.seat.row}{this.props.seat.seat}</Text>
+      </View>
+    )
+  }
+}
+
 export default class App extends React.Component {
   render() {
 
@@ -76,23 +96,73 @@ export default class App extends React.Component {
           return 0;
       }
     })
-    return (
-      <ScrollView style={styles.container}>
 
-        {firstClass.map(function(seat, index){
-          return <Text key="index"> {seat.class}, {seat.row}, {seat.seat} </Text>
-        })}
-      </ScrollView>
+    const firstClassSeats = firstClass.map(function(seat, index){
+      if (seat.seat === "B") {
+        return <AisleSeat key={index} seat={seat}/>
+
+      } else {
+
+        return <Seat key={index} seat={seat}/>
+      }
+    })
+
+    return (
+      // NOTE TURN FIRST CLASS INTO ITS OWN COMPONENT THEN CHANGE THIS <VIEW> TO <SCROLLVIEW>
+      <View style={styles.firstClassContainer}>
+        {firstClassSeats}
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  // contentContainer: {
+  //   flex: 1,
+  //   backgroundColor: '#fff',
+  //   flexDirection: 'row',
+  //   flexWrap: 'wrap',
+  //   alignItems: 'flex-start',
+  //   justifyContent: 'center',
+  // },
+  firstClassContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    overflow: 'scroll'
+    backgroundColor: '#7c2b8b',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingTop: 30,
+    paddingRight: 45,
+    paddingLeft: 45,
   },
+  seat: {
+    alignItems: 'center',
+    backgroundColor: '#1463ff',
+    borderRadius: 25,
+    height: 50,
+    justifyContent: 'center',
+    margin: 5,
+    width: 50,
+  },
+  aisleSeat: {
+    marginRight: 30
+  },
+  occupiedSeat: {
+    backgroundColor: 'gray',
+    opacity: 0.4
+  },
+  premiumSeat: {
+    backgroundColor: '#3696e9',
+  }
 });
+
+// PALETTE
+// #491a53 - Lola Navbar
+// #7c2b8b - Primary Background
+// #6f257b - Secondary Background
+// #1463ff - Primary Button
+// #3696e9 - Premium Seat
+// #6f217c - Secondary Button
+// #ff0190 - Info Button
+// #e93697 - Menu
+// #ffffff - Text
+// #dab537 - #b2795f - Secondary Text
