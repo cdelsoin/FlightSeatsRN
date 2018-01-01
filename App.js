@@ -13,13 +13,13 @@ export default class App extends React.Component {
     seatData.forEach(function(seat){
       switch (seat.class) {
         case 'First':
-            firstClass.push(seat)
+          firstClass.push(seat)
           break;
         case 'Business':
-            businessClass.push(seat)
+          businessClass.push(seat)
           break;
         case 'Economy':
-            economyClass.push(seat)
+          economyClass.push(seat)
           break;
         default:
 
@@ -43,6 +43,39 @@ export default class App extends React.Component {
       }
     })
 
+    businessClass.sort(function (a, b) {
+      if (a.row > b.row) {
+          return 1;
+      } else if (a.row < b.row) {
+          return -1;
+      }
+
+      // Else go to the 2nd item
+      if (a.seat < b.seat) {
+          return -1;
+      } else if (a.seat > b.seat) {
+          return 1
+      } else {
+          return 0;
+      }
+    })
+
+    economyClass.sort(function (a, b) {
+      if (a.row > b.row) {
+          return 1;
+      } else if (a.row < b.row) {
+          return -1;
+      }
+
+      // Else go to the 2nd item
+      if (a.seat < b.seat) {
+          return -1;
+      } else if (a.seat > b.seat) {
+          return 1
+      } else {
+          return 0;
+      }
+    })
     return (
       <ScrollView style={styles.container}>
 
