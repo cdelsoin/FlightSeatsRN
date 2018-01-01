@@ -196,16 +196,30 @@ export default class App extends React.Component {
       // <FirstClassSection firstClassSeats={firstClassSeats}/>
       // <BusinessClassSection businessClassSeats={businessClassSeats}/>
       // <EconomyClassSection economyClassSeats={economyClassSeats}/>
-          <ScrollView contentContainerStyle={styles.contentContainer}>
-            <FirstClassSection firstClassSeats={firstClassSeats}/>
-            <BusinessClassSection businessClassSeats={businessClassSeats}/>
-            <EconomyClassSection economyClassSeats={economyClassSeats}/>
-          </ScrollView>
+      <View style={styles.appContainer} >
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <FirstClassSection firstClassSeats={firstClassSeats}/>
+          <BusinessClassSection businessClassSeats={businessClassSeats}/>
+          <EconomyClassSection economyClassSeats={economyClassSeats}/>
+        </ScrollView>
+        <View style={styles.zView}>
+          <Text>Hello</Text>
+        </View>
+
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  appContainer: {
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+  },
+  zView: {
+    backgroundColor: '#e93697',
+    height: 150,
+  },
   contentContainer: {
     // flex: 1,
     // alignItems: 'stretch',
@@ -214,8 +228,7 @@ const styles = StyleSheet.create({
     // overflow: 'scroll'
   },
   firstClassContainer: {
-    backgroundColor: '#6f257b',
-    borderRadius: 25,
+    // backgroundColor: '#6f257b',
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 40,
@@ -223,30 +236,28 @@ const styles = StyleSheet.create({
     marginLeft: 50,
   },
   businessClassContainer: {
-    backgroundColor: '#6f257b',
-    borderRadius: 25,
+    // backgroundColor: '#6f257b',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 25,
+    marginTop: 15,
     marginRight: 30,
     marginLeft: 30,
   },
   economyClassContainer: {
-    backgroundColor: '#6f257b',
-    borderRadius: 25,
+    // backgroundColor: '#6f257b',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 25,
+    marginTop: 15,
     marginRight: 5,
     marginLeft: 5,
-    marginBottom: 50,
+    marginBottom: 30,
   },
   seat: {
     alignItems: 'center',
-    backgroundColor: '#1463ff',
+    backgroundColor: '#3696e9',
     borderRadius: 25,
-    // borderColor: '#6f257b',
-    borderWidth: 1,
+    borderColor: '#6f257b',
+    borderWidth: 2,
     height: 30,
     justifyContent: 'center',
     width: 30,
@@ -280,10 +291,10 @@ const styles = StyleSheet.create({
   },
   occupiedSeat: {
     backgroundColor: 'gray',
-    opacity: 0.3
+    opacity: 0.2
   },
   premiumSeat: {
-    backgroundColor: '#3696e9',
+    backgroundColor: '#1463ff',
   }
 });
 
@@ -298,3 +309,5 @@ const styles = StyleSheet.create({
 // #e93697 - Menu
 // #ffffff - Text
 // #dab537 - #b2795f - Secondary Text
+// #14ff81 - Money
+// #14fff8 - Selected Seat
