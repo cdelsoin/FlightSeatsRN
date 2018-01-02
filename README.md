@@ -2,9 +2,10 @@
 
 The live demo has been published [here.](https://exp.host/@cdelsoin/lola-seats-crna)
 
-Open it in the [Expo app](https://expo.io) by scanning the provided QR Code 
+Open it in the [Expo app](https://expo.io) by scanning this QR Code
 
 
+![](https://imgur.com/a/ZjCxK)
 
 ## Local Development
 
