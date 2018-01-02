@@ -308,7 +308,7 @@ class MessageBannerComponent extends React.Component {
     return (
       <View style={[styles.messageContainer, this.props.selectedSeat.seat && styles.messageContainerFullHeight ]}>
         { !this.props.selectedSeat.seat &&
-          <Text style={{fontWeight: 'bold',fontSize: 20, color:'#fff'}}>Please select your seat</Text>
+          <Text style={{fontSize: 20, color:'#fff'}}>Please select your seat</Text>
         }
         { this.props.selectedSeat.seat &&
           <View style={{
@@ -320,8 +320,8 @@ class MessageBannerComponent extends React.Component {
               alignItems: 'center',
               flex: 1
             }}>
-              <Text style={{fontWeight: 'bold',fontSize: 20, color:'#fff'}}>{this.props.selectedSeat.seatID}</Text>
-              <Text style={{fontWeight: 'bold',fontSize: 20, color:'#fff'}}>{this.props.selectedSeat.class} Class</Text>
+              <Text style={{fontSize: 20, color:'#fff'}}>Seat {this.props.selectedSeat.seatID}</Text>
+              <Text style={{fontSize: 20, color:'#fff'}}>{this.props.selectedSeat.class} Class</Text>
             </View>
             <View style={{
               justifyContent: 'center',
@@ -329,7 +329,7 @@ class MessageBannerComponent extends React.Component {
               backgroundColor: '#14ff81',
               flex: 1
             }}>
-              <Text style={{fontWeight: 'bold',fontSize: 40, color:'#000'}}>${this.calculatePrice()}</Text>
+              <Text style={{fontSize: 40}}>${this.calculatePrice()}</Text>
             </View>
           </View>
         }
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
     opacity: 0.2
   },
   premiumSeat: {
-    backgroundColor: '#dab537',
+    backgroundColor: '#14fff8',
   },
   seatLegendContainer: {
     flexDirection: 'row',
@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
   },
   legendSeatPremium: {
     marginRight: 1,
-    backgroundColor: '#dab537',
+    backgroundColor: '#14fff8',
     borderRadius: 25,
     borderColor: '#fff',
     borderWidth: 1,
