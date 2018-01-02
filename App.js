@@ -5,35 +5,37 @@ import Seats from './seats.json';
 class Seat extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      selected: false
-    }
+    this.handleSeatChange = this.handleSeatChange.bind(this)
   }
 
-  _onPressButton(props) {
-    if (this.props.seat.occupied) {
-      return
+  isCurrentSeatSelected() {
+    if (this.props.seat === this.props.selectedSeat) return true
+  }
+
+  handleSeatChange(seat){
+    if (this.props.seat.occupied) return
+    if (this.isCurrentSeatSelected()) {
+      this.props.handleSeatChange({})
     } else {
-      this.setState({
-        selected: !this.state.selected
-      })
+
+      this.props.handleSeatChange(this.props.seat)
     }
   }
 
   render(props) {
     return (
       <TouchableHighlight
-        onPress={this._onPressButton.bind(this)}
+        onPress={this.handleSeatChange.bind(this)}
         style={[
           styles.seat,
           this.props.firstClass && styles.firstClassSeat,
           this.props.businessClass && styles.businessClassSeat,
           this.props.economyClass && styles.economyClassSeat,
           this.props.seat.premium && styles.premiumSeat,
-          this.state.selected && styles.selectedSeat,
+          this.isCurrentSeatSelected() && styles.selectedSeat,
           this.props.seat.occupied && styles.occupiedSeat,
         ]}>
-        <Text style={[{color: '#000'}, this.props.seat.premium && {color: '#000'}]}>{this.props.seat.row}{this.props.seat.seat}</Text>
+        <Text style={[{color: '#000', opacity: 0.5}]}>{this.props.seat.seatID}</Text>
       </TouchableHighlight>
     )
   }
@@ -73,17 +75,39 @@ class AisleSeat extends React.Component {
           this.state.selected && styles.selectedSeat,
           this.props.seat.occupied && styles.occupiedSeat,
         ]}>
-        <Text style={[{color: '#000'}, this.props.seat.premium && {color: '#000'}]}>{this.props.seat.row}{this.props.seat.seat}</Text>
+        <Text style={[{color: '#000', opacity: 0.5}]}>{this.props.seat.row}{this.props.seat.seat}</Text>
       </TouchableHighlight>
     )
   }
 }
 
 class FirstClassSection extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleSeatChange = this.handleSeatChange.bind(this)
+  }
+
+  handleSeatChange(seat) {
+    this.props.handleSeatChange(seat)
+  }
+
   render(props){
+
+    const selectedSeat = this.props.selectedSeat
+    const handleSeatChange = this.props.handleSeatChange
+
+    const firstClassSeats = this.props.firstClass.map(function(seat, index){
+      seat.seatID = seat.row + seat.seat
+      if (seat.seat === "B") {
+        return <AisleSeat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} firstClass={true}/>
+      } else {
+        return <Seat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} firstClass={true}/>
+      }
+    })
+
     return (
       <View style={styles.firstClassContainer}>
-        {this.props.firstClassSeats}
+        {firstClassSeats}
       </View>
     )
   }
@@ -109,34 +133,21 @@ class EconomyClassSection extends React.Component {
   }
 }
 
-class SeatLegend extends React.Component {
-  render(props){
-    return (
-      <View style={styles.seatLegendContainer}>
-        <View style={styles.seatDefinition}>
-          <View style={styles.legendSeatAvailable}></View>
-          <Text>Available</Text>
-        </View>
-        <View style={styles.seatDefinition}>
-          <View style={styles.legendSeatPremium}></View>
-          <Text>Premium</Text>
-        </View>
-        <View style={styles.seatDefinition}>
-          <View style={styles.legendSeatSelected}></View>
-          <Text>Selected</Text>
-        </View>
-        <View style={styles.seatDefinition}>
-          <View style={styles.legendSeatUnavailable}></View>
-          <Text>Unavailable</Text>
-        </View>
-      </View>
-    )
+class SeatSelectionComponent extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleSeatChange = this.handleSeatChange.bind(this)
+    this.state = {
+      selectedSeat: {}
+    }
   }
-}
 
+  handleSeatChange(selectedSeat){
+    this.setState({})
+    this.setState({selectedSeat})
+  }
 
-export default class App extends React.Component {
-  render() {
+  render(props) {
 
     const seatData = Seats
     const firstClass = []
@@ -144,7 +155,6 @@ export default class App extends React.Component {
     const economyClass = []
 
     seatData.forEach(function(seat){
-      seat.selected = false
       switch (seat.class) {
         case 'First':
           firstClass.push(seat)
@@ -209,36 +219,78 @@ export default class App extends React.Component {
       }
     })
 
-    const firstClassSeats = firstClass.map(function(seat, index){
-      if (seat.seat === "B") {
-        return <AisleSeat key={index} seat={seat} firstClass={true}/>
-      } else {
-        return <Seat key={index} seat={seat} firstClass={true}/>
-      }
-    })
-
     const businessClassSeats = businessClass.map(function(seat, index){
+      let seatID = seat.row + seat.seat
       if (seat.seat === "C") {
-        return <AisleSeat key={index} seat={seat} businessClass={true}/>
+        return <AisleSeat key={index} seat={seat} seatID={seatID} businessClass={true}/>
       } else {
-        return <Seat key={index} seat={seat} businessClass={true}/>
+        return <Seat key={index} seat={seat} seatID={seatID} businessClass={true}/>
       }
     })
 
     const economyClassSeats = economyClass.map(function(seat, index){
+      let seatID = seat.row + seat.seat
       if (seat.seat === "B") {
-        return <AisleSeat key={index} seat={seat} economyClass={true}/>
+        return <AisleSeat key={index} seat={seat} seatID={seatID} economyClass={true}/>
       } else if (seat.seat === "G"){
-        return <AisleSeat key={index} seat={seat} economyClass={true}/>
+        return <AisleSeat key={index} seat={seat} seatID={seatID} economyClass={true}/>
       } else {
-        return <Seat key={index} seat={seat} economyClass={true}/>
+        return <Seat key={index} seat={seat} seatID={seatID} economyClass={true}/>
       }
     })
 
+
+    // <BusinessClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} businessClassSeats={businessClassSeats}/>
+    // <EconomyClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} economyClassSeats={economyClassSeats}/>
     return (
-      // <FirstClassSection firstClassSeats={firstClassSeats}/>
-      // <BusinessClassSection businessClassSeats={businessClassSeats}/>
-      // <EconomyClassSection economyClassSeats={economyClassSeats}/>
+      <View style={{flex:1}}>
+        <View style={styles.pleaseSelectContainer}>
+          { this.state.selectedSeat.seat &&
+            <Text style={{fontWeight: 'bold',fontSize: 25, color:'#fff'}}>{this.state.selectedSeat.row}{this.state.selectedSeat.seat}</Text>
+          }
+
+          { !this.state.selectedSeat.seat &&
+            <Text style={{fontWeight: 'bold',fontSize: 25, color:'#fff'}}>Please select your seat</Text>
+          }
+        </View>
+        <ScrollView contentContainerStyle={styles.seatSelectionContainer}>
+          <FirstClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} firstClass={firstClass}/>
+        </ScrollView>
+      </View>
+    )
+  }
+}
+
+class SeatLegend extends React.Component {
+  render(props){
+    return (
+      <View style={styles.seatLegendContainer}>
+        <View style={styles.seatDefinition}>
+          <View style={styles.legendSeatAvailable}></View>
+          <Text>Available</Text>
+        </View>
+        <View style={styles.seatDefinition}>
+          <View style={styles.legendSeatPremium}></View>
+          <Text>Premium</Text>
+        </View>
+        <View style={styles.seatDefinition}>
+          <View style={styles.legendSeatSelected}></View>
+          <Text>Selected</Text>
+        </View>
+        <View style={styles.seatDefinition}>
+          <View style={styles.legendSeatUnavailable}></View>
+          <Text>Unavailable</Text>
+        </View>
+      </View>
+    )
+  }
+}
+
+
+export default class App extends React.Component {
+  render() {
+
+    return (
       <View style={styles.appContainer} >
         <View style={styles.locationContentContainer}>
           <Text style={{fontWeight:'bold', fontSize:20}}>BOS - SFO</Text>
@@ -246,15 +298,7 @@ export default class App extends React.Component {
         <View style={styles.legendContentContainer}>
           <SeatLegend/>
         </View>
-        <ScrollView contentContainerStyle={styles.contentContainer}>
-          <FirstClassSection firstClassSeats={firstClassSeats}/>
-          <BusinessClassSection businessClassSeats={businessClassSeats}/>
-          <EconomyClassSection economyClassSeats={economyClassSeats}/>
-        </ScrollView>
-        <View style={styles.pleaseSelectContainer}>
-          <Text style={{fontWeight: 'bold',fontSize: 25, color:'#fff'}}>Please select your seat</Text>
-        </View>
-
+        <SeatSelectionComponent />
       </View>
     );
   }
@@ -263,7 +307,8 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   appContainer: {
     flexDirection: 'column',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
+    flex: 1,
   },
   legendContentContainer: {
     backgroundColor: '#fff',
@@ -275,7 +320,7 @@ const styles = StyleSheet.create({
   },
   pleaseSelectContainer: {
     backgroundColor: '#e93697',
-    height: 50,
+    height: 40,
     alignItems: 'center',
     justifyContent:'center'
   },
@@ -286,11 +331,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'center'
   },
-  contentContainer: {
+  seatSelectionContainer: {
     // flex: 1,
     // alignItems: 'stretch',
     backgroundColor: '#7c2b8b',
     flexDirection: 'column',
+    flexWrap: 'wrap'
     // overflow: 'scroll'
   },
 
@@ -342,7 +388,10 @@ const styles = StyleSheet.create({
     margin: 10
   },
   businessClassSeat: {
-    margin: 5
+    marginTop: 8,
+    marginBottom: 8,
+    marginLeft: 5,
+    marginRight: 5
   },
   economyClassSeat: {
     margin:3
