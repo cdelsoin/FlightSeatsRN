@@ -262,20 +262,77 @@ class SeatSelectionComponent extends React.Component {
 
     return (
       <View style={{flex:1}}>
-        <View style={styles.pleaseSelectContainer}>
-          { this.state.selectedSeat.seat &&
-            <Text style={{fontWeight: 'bold',fontSize: 25, color:'#fff'}}>{this.state.selectedSeat.row}{this.state.selectedSeat.seat}</Text>
-          }
-
-          { !this.state.selectedSeat.seat &&
-            <Text style={{fontWeight: 'bold',fontSize: 25, color:'#fff'}}>Please select your seat</Text>
-          }
+        <View>
+          <MessageBannerComponent selectedSeat={this.state.selectedSeat} />
         </View>
         <ScrollView contentContainerStyle={styles.seatSelectionContainer}>
           <FirstClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} firstClass={firstClass}/>
           <BusinessClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} businessClass={businessClass}/>
           <EconomyClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} economyClass={economyClass}/>
         </ScrollView>
+      </View>
+    )
+  }
+}
+
+class MessageBannerComponent extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      seatPrice: 0
+    }
+  }
+
+  calculatePrice(){
+    var cost = 0
+
+    switch (this.props.selectedSeat.class) {
+      case "First":
+        cost += 1295
+        break;
+      case "Business":
+        cost += 985
+        break;
+      case "Economy":
+        cost += 257
+        break;
+      default:
+    }
+
+    if (this.props.selectedSeat.premium) { cost += 120}
+
+    return cost
+  }
+  render(props) {
+
+    return (
+      <View style={[styles.messageContainer, this.props.selectedSeat.seat && styles.messageContainerFullHeight ]}>
+        { !this.props.selectedSeat.seat &&
+          <Text style={{fontWeight: 'bold',fontSize: 20, color:'#fff'}}>Please select your seat</Text>
+        }
+        { this.props.selectedSeat.seat &&
+          <View style={{
+            flexDirection: 'row',
+            flex:1
+          }}>
+            <View style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              flex: 1
+            }}>
+              <Text style={{fontWeight: 'bold',fontSize: 20, color:'#fff'}}>{this.props.selectedSeat.seatID}</Text>
+              <Text style={{fontWeight: 'bold',fontSize: 20, color:'#fff'}}>{this.props.selectedSeat.class} Class</Text>
+            </View>
+            <View style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#14ff81',
+              flex: 1
+            }}>
+              <Text style={{fontWeight: 'bold',fontSize: 40, color:'#000'}}>${this.calculatePrice()}</Text>
+            </View>
+          </View>
+        }
       </View>
     )
   }
@@ -338,11 +395,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#e93697',
     height: 150,
   },
-  pleaseSelectContainer: {
+  messageContainer: {
     backgroundColor: '#e93697',
     height: 40,
     alignItems: 'center',
     justifyContent:'center'
+  },
+  messageContainerFullHeight:{
+    height:100
   },
   locationContentContainer: {
     backgroundColor: '#f7f7fa',
@@ -352,12 +412,9 @@ const styles = StyleSheet.create({
     justifyContent:'center'
   },
   seatSelectionContainer: {
-    // flex: 1,
-    // alignItems: 'stretch',
     backgroundColor: '#7c2b8b',
     flexDirection: 'column',
     flexWrap: 'wrap'
-    // overflow: 'scroll'
   },
 
   firstClassContainer: {
