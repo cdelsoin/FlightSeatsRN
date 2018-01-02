@@ -44,25 +44,27 @@ class Seat extends React.Component {
 class AisleSeat extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      selected: false
-    }
+    this.handleSeatChange = this.handleSeatChange.bind(this)
   }
 
-  _onPressButton(props) {
-    if (this.props.seat.occupied) {
-      return
+  isCurrentSeatSelected() {
+    if (this.props.seat === this.props.selectedSeat) return true
+  }
+
+  handleSeatChange(seat){
+    if (this.props.seat.occupied) return
+    if (this.isCurrentSeatSelected()) {
+      this.props.handleSeatChange({})
     } else {
-      this.setState({
-        selected: !this.state.selected
-      })
+
+      this.props.handleSeatChange(this.props.seat)
     }
   }
 
   render(props) {
     return (
       <TouchableHighlight
-        onPress={this._onPressButton.bind(this)}
+        onPress={this.handleSeatChange.bind(this)}
         style={[
           styles.seat,
           this.props.firstClass && styles.firstClassSeat,
@@ -72,10 +74,10 @@ class AisleSeat extends React.Component {
           this.props.businessClass && styles.businessClassAisleSeat,
           this.props.economyClass && styles.economyClassAisleSeat,
           this.props.seat.premium && styles.premiumSeat,
-          this.state.selected && styles.selectedSeat,
+          this.isCurrentSeatSelected() && styles.selectedSeat,
           this.props.seat.occupied && styles.occupiedSeat,
         ]}>
-        <Text style={[{color: '#000', opacity: 0.5}]}>{this.props.seat.row}{this.props.seat.seat}</Text>
+        <Text style={[{color: '#000', opacity: 0.5}]}>{this.props.seat.seatID}</Text>
       </TouchableHighlight>
     )
   }
