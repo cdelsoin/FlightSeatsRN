@@ -3,11 +3,20 @@ import { StyleSheet, ScrollView, Text, View, Button, TouchableHighlight, Alert }
 import Seats from './seats.json';
 
 class Seat extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selected: false
+    }
+  }
+
   _onPressButton(props) {
     if (this.props.seat.occupied) {
-      Alert.alert('Sorry seat ' + this.props.seat.row + this.props.seat.seat + ' is unavailable')
+      return
     } else {
-      Alert.alert('You have selected seat ' + this.props.seat.row + this.props.seat.seat)
+      this.setState({
+        selected: !this.state.selected
+      })
     }
   }
 
@@ -21,21 +30,30 @@ class Seat extends React.Component {
           this.props.businessClass && styles.businessClassSeat,
           this.props.economyClass && styles.economyClassSeat,
           this.props.seat.premium && styles.premiumSeat,
-          this.props.seat.selected && styles.selectedSeat,
+          this.state.selected && styles.selectedSeat,
           this.props.seat.occupied && styles.occupiedSeat,
         ]}>
-        <Text style={[{color: '#ccc'}, this.props.seat.premium && {color: '#000'}]}>{this.props.seat.row}{this.props.seat.seat}</Text>
+        <Text style={[{color: '#000'}, this.props.seat.premium && {color: '#000'}]}>{this.props.seat.row}{this.props.seat.seat}</Text>
       </TouchableHighlight>
     )
   }
 }
 
 class AisleSeat extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selected: false
+    }
+  }
+
   _onPressButton(props) {
     if (this.props.seat.occupied) {
-      Alert.alert('Sorry seat ' + this.props.seat.row + this.props.seat.seat + ' is unavailable')
+      return
     } else {
-      Alert.alert('You have selected seat ' + this.props.seat.row + this.props.seat.seat)
+      this.setState({
+        selected: !this.state.selected
+      })
     }
   }
 
@@ -52,10 +70,10 @@ class AisleSeat extends React.Component {
           this.props.businessClass && styles.businessClassAisleSeat,
           this.props.economyClass && styles.economyClassAisleSeat,
           this.props.seat.premium && styles.premiumSeat,
-          this.props.seat.selected && styles.selectedSeat,
+          this.state.selected && styles.selectedSeat,
           this.props.seat.occupied && styles.occupiedSeat,
         ]}>
-        <Text style={[{color: '#ccc'}, this.props.seat.premium && {color: '#000'}]}>{this.props.seat.row}{this.props.seat.seat}</Text>
+        <Text style={[{color: '#000'}, this.props.seat.premium && {color: '#000'}]}>{this.props.seat.row}{this.props.seat.seat}</Text>
       </TouchableHighlight>
     )
   }
@@ -100,16 +118,16 @@ class SeatLegend extends React.Component {
           <Text>Available</Text>
         </View>
         <View style={styles.seatDefinition}>
-          <View style={styles.legendSeatUnavailable}></View>
-          <Text>Unavailable</Text>
-        </View>
-        <View style={styles.seatDefinition}>
           <View style={styles.legendSeatPremium}></View>
           <Text>Premium</Text>
         </View>
         <View style={styles.seatDefinition}>
           <View style={styles.legendSeatSelected}></View>
           <Text>Selected</Text>
+        </View>
+        <View style={styles.seatDefinition}>
+          <View style={styles.legendSeatUnavailable}></View>
+          <Text>Unavailable</Text>
         </View>
       </View>
     )
@@ -222,16 +240,19 @@ export default class App extends React.Component {
       // <BusinessClassSection businessClassSeats={businessClassSeats}/>
       // <EconomyClassSection economyClassSeats={economyClassSeats}/>
       <View style={styles.appContainer} >
+        <View style={styles.locationContentContainer}>
+          <Text style={{fontWeight:'bold', fontSize:20}}>BOS - SFO</Text>
+        </View>
+        <View style={styles.legendContentContainer}>
+          <SeatLegend/>
+        </View>
         <ScrollView contentContainerStyle={styles.contentContainer}>
           <FirstClassSection firstClassSeats={firstClassSeats}/>
           <BusinessClassSection businessClassSeats={businessClassSeats}/>
           <EconomyClassSection economyClassSeats={economyClassSeats}/>
         </ScrollView>
-        <View style={styles.legendContentContainer}>
-          <SeatLegend/>
-        </View>
-        <View style={styles.infoContentContainer}>
-          <Text>hi</Text>
+        <View style={styles.pleaseSelectContainer}>
+          <Text style={{fontWeight: 'bold',fontSize: 25, color:'#fff'}}>Please select your seat</Text>
         </View>
 
       </View>
@@ -247,11 +268,23 @@ const styles = StyleSheet.create({
   legendContentContainer: {
     backgroundColor: '#fff',
     height: 30,
-    // marginTop:30
   },
   infoContentContainer: {
     backgroundColor: '#e93697',
-    height: 125,
+    height: 150,
+  },
+  pleaseSelectContainer: {
+    backgroundColor: '#e93697',
+    height: 50,
+    alignItems: 'center',
+    justifyContent:'center'
+  },
+  locationContentContainer: {
+    backgroundColor: '#f7f7fa',
+    height: 30,
+    marginTop:25,
+    alignItems: 'center',
+    justifyContent:'center'
   },
   contentContainer: {
     // flex: 1,
@@ -265,7 +298,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6f257b',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 40,
+    marginTop: 10,
     marginRight: 10,
     marginLeft: 10,
     paddingTop: 10,
@@ -277,7 +310,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6f257b',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 20,
+    marginTop: 10,
     marginRight: 10,
     marginLeft: 10,
     paddingTop: 10,
@@ -289,10 +322,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6f257b',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 20,
-    marginRight: 10,
-    marginLeft: 10,
-    marginBottom: 30,
+    margin: 10,
     paddingTop: 10,
     paddingRight: 8,
     paddingBottom: 10,
@@ -300,8 +330,8 @@ const styles = StyleSheet.create({
   },
   seat: {
     alignItems: 'center',
-    backgroundColor: '#3696e9',
-    borderRadius: 25,
+    backgroundColor: '#1463ff',
+    // borderRadius: 25,
     borderColor: '#6f257b',
     borderWidth: 1,
     height: 30,
@@ -309,16 +339,10 @@ const styles = StyleSheet.create({
     width: 30,
   },
   firstClassSeat: {
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 5,
-    marginBottom: 5,
+    margin: 10
   },
   businessClassSeat: {
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 5,
-    marginBottom: 5,
+    margin: 5
   },
   economyClassSeat: {
     margin:3
@@ -333,7 +357,7 @@ const styles = StyleSheet.create({
     marginRight: 20
   },
   selectedSeat: {
-    backgroundColor: '#14fff8',
+    backgroundColor: '#14ff81',
   },
   occupiedSeat: {
     backgroundColor: 'gray',
@@ -357,7 +381,7 @@ const styles = StyleSheet.create({
     // padding: 5
   },
   legendSeatAvailable: {
-    backgroundColor: '#3696e9',
+    backgroundColor: '#1463ff',
     borderRadius: 25,
     borderColor: '#fff',
     borderWidth: 1,
@@ -385,7 +409,7 @@ const styles = StyleSheet.create({
   },
   legendSeatSelected: {
     marginRight: 1,
-    backgroundColor: '#14fff8',
+    backgroundColor: '#14ff81',
     borderRadius: 25,
     borderColor: '#fff',
     borderWidth: 1,
@@ -405,5 +429,5 @@ const styles = StyleSheet.create({
 // #e93697 - Menu
 // #ffffff - Text
 // #dab537 - #b2795f - Secondary Text
-// #14ff81 - Money
-// #14fff8 - Selected Seat
+// #14ff81 - Money - Selected Seat
+// #14fff8 - ???
