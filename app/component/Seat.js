@@ -27,14 +27,18 @@ export default class Seat extends React.Component {
         onPress={this.handleSeatChange.bind(this)}
         style={[
           styles.seat,
-          this.props.firstClass && styles.firstClassSeat,
-          this.props.businessClass && styles.businessClassSeat,
-          this.props.economyClass && styles.economyClassSeat,
+          this.props.seat.class === "First" && styles.firstClassSeat,
+          this.props.seat.class === "Business" && styles.businessClassSeat,
+          this.props.seat.class === "Economy" && styles.economyClassSeat,
+          this.props.seat.class === "First"&& this.props.seat.seat === "B" && styles.firstClassAisleSeat,
+          this.props.seat.class === "Business" && this.props.seat.seat === "C" && styles.businessClassAisleSeat,
+          this.props.seat.class === "Economy" && this.props.seat.seat === "B" && styles.economyClassAisleSeat,
+          this.props.seat.class === "Economy" && this.props.seat.seat === "G" && styles.economyClassAisleSeat,
           this.props.seat.premium && styles.premiumSeat,
           this.isCurrentSeatSelected() && styles.selectedSeat,
           this.props.seat.occupied && styles.occupiedSeat,
         ]}>
-        <Text style={[{color: '#000', opacity: 0.5}]}>{this.props.seat.seatID}</Text>
+        <Text style={[{opacity: 0.5}]}>{this.props.seat.seatID}</Text>
       </TouchableHighlight>
     )
   }
@@ -61,6 +65,15 @@ const styles = StyleSheet.create({
   },
   economyClassSeat: {
     margin:3
+  },
+  firstClassAisleSeat: {
+    marginRight: 65
+  },
+  businessClassAisleSeat: {
+    marginRight: 60
+  },
+  economyClassAisleSeat: {
+    marginRight: 20
   },
   selectedSeat: {
     backgroundColor: '#14ff81',

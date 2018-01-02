@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, ScrollView, Text, View, Button, TouchableHighlight, Alert } from 'react-native';
 import Seat from './Seat.js'
-import AisleSeat from './AisleSeat.js'
+
 
 export default class FirstClassSection extends React.Component {
   constructor(props) {
@@ -19,11 +19,7 @@ export default class FirstClassSection extends React.Component {
     const handleSeatChange = this.props.handleSeatChange
 
     const firstClassSeats = this.props.firstClass.map(function(seat, index){
-      if (seat.seat === "B") {
-        return <AisleSeat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} firstClass={true}/>
-      } else {
-        return <Seat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} firstClass={true}/>
-      }
+      return <Seat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} />
     })
 
     return (

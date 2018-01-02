@@ -3,7 +3,8 @@ import { StyleSheet, ScrollView, Text, View, Button, TouchableHighlight, Alert }
 import SeatLegend from './component/SeatLegend'
 import SeatSelection from './component/SeatSelection'
 
-
+// NOTE may need to edit the file path to App.js here in the future
+// lola-seats-crna/node_modules/react-native-scripts/build/bin/crna-entry.js
 export default class App extends React.Component {
   render() {
 
