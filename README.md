@@ -5,7 +5,7 @@ The live demo has been published [here.](https://exp.host/@cdelsoin/lola-seats-c
 Open it in the [Expo app](https://expo.io) by scanning this QR Code
 
 
-![](https://imgur.com/a/ZjCxK)
+![Imgur Image](https://i.imgur.com/MeM0HX8.png)
 
 ## Local Development
 
