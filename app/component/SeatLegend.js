@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, ScrollView, Text, View, Button, TouchableHighlight, Alert } from 'react-native';
 
+// A legend to direct users
 export default class SeatLegend extends React.Component {
   render(props){
     return (

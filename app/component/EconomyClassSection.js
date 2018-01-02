@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, ScrollView, Text, View, Button, TouchableHighlight, Alert } from 'react-native';
 import Seat from './Seat.js'
 
-
+// the economy class cabin section of the seat seleaction component
 export default class EconomyClassSection extends React.Component {
   constructor(props) {
     super(props)
@@ -14,10 +14,11 @@ export default class EconomyClassSection extends React.Component {
   }
 
   render(props){
-    
+
     const selectedSeat = this.props.selectedSeat
     const handleSeatChange = this.props.handleSeatChange
 
+    // loops through data and creates unique seats
     const economyClassSeats = this.props.economyClass.map(function(seat, index){
       return <Seat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} />
     })

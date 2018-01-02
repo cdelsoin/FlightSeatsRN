@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, ScrollView, Text, View, Button, TouchableHighlight, Alert } from 'react-native';
 
+// a message banner to guide the user and display information
 export default class MessageBanner extends React.Component {
   constructor(props){
     super(props)
   }
 
+  // creates a fake ticket price based on the seat info
   calculatePrice(){
     var cost = 0
 
@@ -32,10 +34,12 @@ export default class MessageBanner extends React.Component {
     return (
       <View style={[styles.messageContainer, this.props.selectedSeat.seat && styles.messageContainerFullHeight ]}>
 
+        // if no seat is selected show a message
         { !this.props.selectedSeat.seat &&
           <Text style={styles.bannerFont}>Please select your seat</Text>
         }
 
+        // if seat is selected show seat data and price
         { this.props.selectedSeat.seat &&
           <View style={{flexDirection: 'row',flex:1}}>
 

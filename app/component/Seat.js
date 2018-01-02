@@ -1,24 +1,25 @@
 import React from 'react';
 import { StyleSheet, ScrollView, Text, View, Button, TouchableHighlight, Alert } from 'react-native';
 
+// a single seat component - style conditionally based on seat properties
 export default class Seat extends React.Component {
   constructor(props) {
     super(props)
     this.handleSeatChange = this.handleSeatChange.bind(this)
   }
 
+  // checks if current seat obj matches the selected seat obj
   isCurrentSeatSelected() {
     if (this.props.seat === this.props.selectedSeat) return true
   }
 
   handleSeatChange(seat){
-    if (this.props.seat.occupied) return
+    if (this.props.seat.occupied) return // if this seat is unavailable - do nothing
 
     if (this.isCurrentSeatSelected()) {
-      this.props.handleSeatChange({})
+      this.props.handleSeatChange({}) // deselect seat
     } else {
-
-      this.props.handleSeatChange(this.props.seat)
+      this.props.handleSeatChange(this.props.seat) // select seat
     }
   }
 

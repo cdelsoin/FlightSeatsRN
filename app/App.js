@@ -4,6 +4,7 @@ import SeatData from './data/seats.json';
 import SeatLegend from './component/SeatLegend'
 import SeatSelection from './component/SeatSelection'
 
+// sorts data by row then seat
 SeatData.sort(function (a, b) {
   if (a.row > b.row) {
       return 1;
@@ -24,6 +25,7 @@ const firstClass = []
 const businessClass = []
 const economyClass = []
 
+// creates an ID for each seat and separates them by cabin class
 SeatData.forEach(function(seat){
   seat.seatID = seat.row + seat.seat
   switch (seat.class) {
@@ -46,13 +48,17 @@ export default class App extends React.Component {
 
     return (
       <View style={styles.appContainer} >
+
         <View style={styles.flightDestinationContentContainer}>
-          <Text style={{fontWeight:'bold', fontSize:20}}>BOS - SFO</Text>
+          <Text style={styles.flightDestinationText}>BOS - SFO</Text>
         </View>
+
         <View style={styles.legendContentContainer}>
-          <SeatLegend/>
+          <SeatLegend />
         </View>
+
         <SeatSelection firstClass={firstClass} businessClass={businessClass} economyClass={economyClass}  />
+
       </View>
     );
   }
@@ -75,6 +81,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'center'
   },
+  flightDestinationText: {
+    fontWeight:'bold',
+    fontSize:20
+  }
 });
 
 // PALETTE

@@ -18,6 +18,7 @@ export default class FirstClassSection extends React.Component {
     const selectedSeat = this.props.selectedSeat
     const handleSeatChange = this.props.handleSeatChange
 
+    // loops through data and creates unique seats
     const firstClassSeats = this.props.firstClass.map(function(seat, index){
       return <Seat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} />
     })
