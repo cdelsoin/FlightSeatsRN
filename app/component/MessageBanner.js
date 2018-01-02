@@ -29,6 +29,7 @@ export default class MessageBanner extends React.Component {
 
     return cost
   }
+  
   render(props) {
 
     return (
