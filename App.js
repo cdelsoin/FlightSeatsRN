@@ -99,7 +99,6 @@ class FirstClassSection extends React.Component {
     const handleSeatChange = this.props.handleSeatChange
 
     const firstClassSeats = this.props.firstClass.map(function(seat, index){
-      seat.seatID = seat.row + seat.seat
       if (seat.seat === "B") {
         return <AisleSeat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} firstClass={true}/>
       } else {
@@ -116,20 +115,59 @@ class FirstClassSection extends React.Component {
 }
 
 class BusinessClassSection extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleSeatChange = this.handleSeatChange.bind(this)
+  }
+
+  handleSeatChange(seat) {
+    this.props.handleSeatChange(seat)
+  }
+
   render(props){
+    const selectedSeat = this.props.selectedSeat
+    const handleSeatChange = this.props.handleSeatChange
+
+    const businessClassSeats = this.props.businessClass.map(function(seat, index){
+      if (seat.seat === "C") {
+        return <AisleSeat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} businessClass={true}/>
+      } else {
+        return <Seat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} businessClass={true}/>
+      }
+    })
+
     return (
       <View style={styles.businessClassContainer}>
-        {this.props.businessClassSeats}
+        {businessClassSeats}
       </View>
     )
   }
 }
 
 class EconomyClassSection extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleSeatChange = this.handleSeatChange.bind(this)
+  }
+
+  handleSeatChange(seat) {
+    this.props.handleSeatChange(seat)
+  }
+
   render(props){
+    const selectedSeat = this.props.selectedSeat
+    const handleSeatChange = this.props.handleSeatChange
+
+    const economyClassSeats = this.props.economyClass.map(function(seat, index){
+      if (seat.seat === "B" || seat.seat === "G") {
+        return <AisleSeat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} economyClass={true}/>
+      } else {
+        return <Seat key={index} seat={seat} selectedSeat={selectedSeat} handleSeatChange={handleSeatChange} economyClass={true}/>
+      }
+    })
     return (
       <View style={styles.economyClassContainer}>
-        {this.props.economyClassSeats}
+        {economyClassSeats}
       </View>
     )
   }
@@ -157,6 +195,7 @@ class SeatSelectionComponent extends React.Component {
     const economyClass = []
 
     seatData.forEach(function(seat){
+      seat.seatID = seat.row + seat.seat
       switch (seat.class) {
         case 'First':
           firstClass.push(seat)
@@ -221,29 +260,6 @@ class SeatSelectionComponent extends React.Component {
       }
     })
 
-    const businessClassSeats = businessClass.map(function(seat, index){
-      let seatID = seat.row + seat.seat
-      if (seat.seat === "C") {
-        return <AisleSeat key={index} seat={seat} seatID={seatID} businessClass={true}/>
-      } else {
-        return <Seat key={index} seat={seat} seatID={seatID} businessClass={true}/>
-      }
-    })
-
-    const economyClassSeats = economyClass.map(function(seat, index){
-      let seatID = seat.row + seat.seat
-      if (seat.seat === "B") {
-        return <AisleSeat key={index} seat={seat} seatID={seatID} economyClass={true}/>
-      } else if (seat.seat === "G"){
-        return <AisleSeat key={index} seat={seat} seatID={seatID} economyClass={true}/>
-      } else {
-        return <Seat key={index} seat={seat} seatID={seatID} economyClass={true}/>
-      }
-    })
-
-
-    // <BusinessClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} businessClassSeats={businessClassSeats}/>
-    // <EconomyClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} economyClassSeats={economyClassSeats}/>
     return (
       <View style={{flex:1}}>
         <View style={styles.pleaseSelectContainer}>
@@ -257,6 +273,8 @@ class SeatSelectionComponent extends React.Component {
         </View>
         <ScrollView contentContainerStyle={styles.seatSelectionContainer}>
           <FirstClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} firstClass={firstClass}/>
+          <BusinessClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} businessClass={businessClass}/>
+          <EconomyClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} economyClass={economyClass}/>
         </ScrollView>
       </View>
     )
