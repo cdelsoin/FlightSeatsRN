@@ -4,9 +4,6 @@ import { StyleSheet, ScrollView, Text, View, Button, TouchableHighlight, Alert }
 export default class MessageBanner extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      seatPrice: 0
-    }
   }
 
   calculatePrice(){
@@ -29,37 +26,31 @@ export default class MessageBanner extends React.Component {
 
     return cost
   }
-  
+
   render(props) {
 
     return (
       <View style={[styles.messageContainer, this.props.selectedSeat.seat && styles.messageContainerFullHeight ]}>
+
         { !this.props.selectedSeat.seat &&
-          <Text style={{fontSize: 20, color:'#fff'}}>Please select your seat</Text>
+          <Text style={styles.bannerFont}>Please select your seat</Text>
         }
+
         { this.props.selectedSeat.seat &&
-          <View style={{
-            flexDirection: 'row',
-            flex:1
-          }}>
-            <View style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              flex: 1
-            }}>
-              <Text style={{fontSize: 20, color:'#fff'}}>Seat {this.props.selectedSeat.seatID}</Text>
-              <Text style={{fontSize: 20, color:'#fff'}}>{this.props.selectedSeat.class} Class</Text>
+          <View style={{flexDirection: 'row',flex:1}}>
+
+            <View style={[styles.subContainer]}>
+              <Text style={styles.bannerFont}>Seat {this.props.selectedSeat.seatID}</Text>
+              <Text style={styles.bannerFont}>{this.props.selectedSeat.class} Class</Text>
             </View>
-            <View style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#14ff81',
-              flex: 1
-            }}>
+
+            <View style={[styles.subContainer, {backgroundColor: '#14ff81'}]}>
               <Text style={{fontSize: 40}}>${this.calculatePrice()}</Text>
             </View>
+
           </View>
         }
+
       </View>
     )
   }
@@ -73,6 +64,15 @@ const styles = StyleSheet.create({
     justifyContent:'center'
   },
   messageContainerFullHeight:{
-    height:100
+    height:70
   },
+  subContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
+  },
+  bannerFont: {
+    fontSize: 20,
+    color:'#fff'
+  }
 });

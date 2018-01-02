@@ -13,6 +13,7 @@ export default class Seat extends React.Component {
 
   handleSeatChange(seat){
     if (this.props.seat.occupied) return
+
     if (this.isCurrentSeatSelected()) {
       this.props.handleSeatChange({})
     } else {
@@ -30,7 +31,7 @@ export default class Seat extends React.Component {
           this.props.seat.class === "First" && styles.firstClassSeat,
           this.props.seat.class === "Business" && styles.businessClassSeat,
           this.props.seat.class === "Economy" && styles.economyClassSeat,
-          this.props.seat.class === "First"&& this.props.seat.seat === "B" && styles.firstClassAisleSeat,
+          this.props.seat.class === "First" && this.props.seat.seat === "B" && styles.firstClassAisleSeat,
           this.props.seat.class === "Business" && this.props.seat.seat === "C" && styles.businessClassAisleSeat,
           this.props.seat.class === "Economy" && this.props.seat.seat === "B" && styles.economyClassAisleSeat,
           this.props.seat.class === "Economy" && this.props.seat.seat === "G" && styles.economyClassAisleSeat,
@@ -38,6 +39,7 @@ export default class Seat extends React.Component {
           this.isCurrentSeatSelected() && styles.selectedSeat,
           this.props.seat.occupied && styles.occupiedSeat,
         ]}>
+
         <Text style={[{opacity: 0.5}]}>{this.props.seat.seatID}</Text>
       </TouchableHighlight>
     )

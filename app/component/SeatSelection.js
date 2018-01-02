@@ -16,7 +16,6 @@ export default class SeatSelection extends React.Component {
   }
 
   handleSeatChange(selectedSeat){
-    // this.setState({})
     this.setState({selectedSeat})
   }
 

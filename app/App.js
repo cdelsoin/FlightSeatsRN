@@ -4,12 +4,7 @@ import SeatData from './data/seats.json';
 import SeatLegend from './component/SeatLegend'
 import SeatSelection from './component/SeatSelection'
 
-const seatData = SeatData
-const firstClass = []
-const businessClass = []
-const economyClass = []
-
-seatData.sort(function (a, b) {
+SeatData.sort(function (a, b) {
   if (a.row > b.row) {
       return 1;
   } else if (a.row < b.row) {
@@ -25,7 +20,11 @@ seatData.sort(function (a, b) {
   }
 })
 
-seatData.forEach(function(seat){
+const firstClass = []
+const businessClass = []
+const economyClass = []
+
+SeatData.forEach(function(seat){
   seat.seatID = seat.row + seat.seat
   switch (seat.class) {
     case 'First':
