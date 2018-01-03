@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
   seat: {
     alignItems: 'center',
     backgroundColor: '#1463ff',
-    borderColor: '#6f257b',
-    borderWidth: 1,
+    // borderColor: '#909090',
+    // borderWidth: 1,
     height: 30,
     justifyContent: 'center',
     width: 30,

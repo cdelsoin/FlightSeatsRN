@@ -49,8 +49,8 @@ export default class MessageBanner extends React.Component {
               <Text style={styles.bannerFont}>{this.props.selectedSeat.class} Class</Text>
             </View>
 
-            <View style={[styles.subContainer, {backgroundColor: '#14ff81'}]}>
-              <Text style={{fontSize: 40}}>${this.calculatePrice()}</Text>
+            <View style={[styles.subContainer]}>
+              <Text style={[styles.bannerFont, {fontSize: 40}]}>${this.calculatePrice()}</Text>
             </View>
 
           </View>
