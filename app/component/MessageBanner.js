@@ -29,17 +29,18 @@ export default class MessageBanner extends React.Component {
     return cost
   }
 
+  // if no seat is selected show a message
+  // if seat is selected show seat data and price
   render(props) {
 
     return (
       <View style={[styles.messageContainer, this.props.selectedSeat.seat && styles.messageContainerFullHeight ]}>
 
-        // if no seat is selected show a message
         { !this.props.selectedSeat.seat &&
           <Text style={styles.bannerFont}>Please select your seat</Text>
         }
 
-        // if seat is selected show seat data and price
+
         { this.props.selectedSeat.seat &&
           <View style={{flexDirection: 'row',flex:1}}>
 

@@ -20,6 +20,11 @@ export default class SeatSelection extends React.Component {
     this.setState({selectedSeat})
   }
 
+  confirmSeat(){
+    if (!this.state.selectedSeat.seat) return
+    Alert.alert('Your seat is confirmed.\nThank you for using Lola Seats!')
+  }
+
   render(props) {
 
     return (
@@ -35,6 +40,16 @@ export default class SeatSelection extends React.Component {
           <EconomyClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} economyClass={this.props.economyClass} />
         </ScrollView>
 
+        <View style={styles.confirmButton}>
+          <Button
+            style={styles.confirmButton}
+            onPress={this.confirmSeat.bind(this)}
+            disabled={!this.state.selectedSeat.seat}
+            color={'#1463ff'}
+            title="CONFIRM">
+          </Button>
+        </View>
+
       </View>
     )
   }
@@ -45,5 +60,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#7c2b8b',
     flexDirection: 'column',
     flexWrap: 'wrap'
+  },
+  confirmButton: {
+    padding: 10,
+    backgroundColor: '#7c2b8b',
+    height: 55
   },
 });
