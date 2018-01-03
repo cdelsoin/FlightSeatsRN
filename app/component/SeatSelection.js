@@ -40,14 +40,13 @@ export default class SeatSelection extends React.Component {
           <EconomyClassSection  selectedSeat={this.state.selectedSeat} handleSeatChange={this.handleSeatChange} economyClass={this.props.economyClass} />
         </ScrollView>
 
-        <View style={styles.confirmButton}>
-          <Button
-            style={styles.confirmButton}
+        <View style={styles.confirmButtonContainer}>
+          <TouchableHighlight
+            style={[styles.confirmButtonDisabled, this.state.selectedSeat.seat && styles.confirmButtonActive]}
             onPress={this.confirmSeat.bind(this)}
-            disabled={!this.state.selectedSeat.seat}
-            color={'#1463ff'}
-            title="CONFIRM">
-          </Button>
+            disabled={!this.state.selectedSeat.seat}>
+            <Text style={styles.confirmButtonText}>CONFIRM</Text>
+          </TouchableHighlight>
         </View>
 
       </View>
@@ -61,9 +60,22 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexWrap: 'wrap'
   },
-  confirmButton: {
+  confirmButtonContainer: {
     padding: 10,
     backgroundColor: '#7c2b8b',
-    height: 55
   },
+  confirmButtonActive: {
+    backgroundColor: '#1463ff',
+  },
+  confirmButtonDisabled: {
+    backgroundColor: 'gray',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50
+  },
+  confirmButtonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold'
+  }
 });
